@@ -1,0 +1,855 @@
+@prefix : <http://example.com#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix gufo: <http://purl.org/nemo/gufo#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://example.com#> .
+
+<http://example.com> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.com#combinesWith
+:combinesWith rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf owl:topObjectProperty ;
+              owl:inverseOf :hasCombinationIn ;
+              rdfs:domain :Race ;
+              rdfs:range :Race .
+
+
+###  http://example.com#drops
+:drops rdf:type owl:ObjectProperty ;
+       owl:inverseOf :isDropOf ;
+       rdfs:domain :Enemy ;
+       rdfs:range :Weapon ;
+       rdfs:label "drops"@en .
+
+
+###  http://example.com#hasBehavior
+:hasBehavior rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty ;
+             rdfs:domain :CommonEnemy ;
+             rdfs:range :Behavior .
+
+
+###  http://example.com#hasClass
+:hasClass rdf:type owl:ObjectProperty ;
+          owl:inverseOf :isClassOf ;
+          rdfs:domain :Character ;
+          rdfs:range :Class ;
+          rdfs:label "hasClass"@en .
+
+
+###  http://example.com#hasCombinationIn
+:hasCombinationIn rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://example.com#hasLocation
+:hasLocation rdf:type owl:ObjectProperty ;
+             owl:inverseOf :isLocationOf ;
+             rdfs:domain :LocatedEntity ;
+             rdfs:range :Place ;
+             rdfs:label "hasLocation"@en .
+
+
+###  http://example.com#hasNextMainQuest
+:hasNextMainQuest rdf:type owl:ObjectProperty ,
+                           owl:TransitiveProperty ;
+                  rdfs:domain :MainQuest ;
+                  rdfs:range :MainQuest ;
+                  rdfs:label "hasNextMainQuest"@en .
+
+
+###  http://example.com#hasNextSkill
+:hasNextSkill rdf:type owl:ObjectProperty ,
+                       owl:TransitiveProperty ;
+              rdfs:domain :Skill ;
+              rdfs:range :Skill ;
+              rdfs:label "hasNextSkill"@en .
+
+
+###  http://example.com#hasParticipationIn
+:hasParticipationIn rdf:type owl:ObjectProperty ;
+                    owl:inverseOf :hasParticipationOf ;
+                    rdfs:domain :Boss ;
+                    rdfs:range :Quest ;
+                    rdfs:label "hasParticipationIn"@en .
+
+
+###  http://example.com#hasParticipationOf
+:hasParticipationOf rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://example.com#hasRace
+:hasRace rdf:type owl:ObjectProperty ;
+         owl:inverseOf :isRaceOf ;
+         rdfs:domain :LivingBeing ;
+         rdfs:range :Race ;
+         rdfs:label "hasRace"@en .
+
+
+###  http://example.com#hasRarity
+:hasRarity rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty ;
+           rdfs:domain :Weapon ;
+           rdfs:range :Rarity .
+
+
+###  http://example.com#hasSkill
+:hasSkill rdf:type owl:ObjectProperty ;
+          owl:inverseOf :isSkillOf ;
+          rdfs:domain :Class ;
+          rdfs:range :Skill ;
+          rdfs:label "hasSkill"@en .
+
+
+###  http://example.com#hasWeapon
+:hasWeapon rdf:type owl:ObjectProperty ;
+           owl:inverseOf :isWeaponOf ;
+           rdfs:domain :Class ;
+           rdfs:range :Weapon ;
+           rdfs:label "hasWeapon"@en .
+
+
+###  http://example.com#isClassOf
+:isClassOf rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://example.com#isDropOf
+:isDropOf rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://example.com#isLocationOf
+:isLocationOf rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://example.com#isRaceOf
+:isRaceOf rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://example.com#isSkillOf
+:isSkillOf rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://example.com#isWeaponOf
+:isWeaponOf rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.com#hasAttackPower
+:hasAttackPower rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf owl:topDataProperty ;
+                rdfs:domain :AttackWeapon ;
+                rdfs:range xsd:decimal .
+
+
+###  http://example.com#hasBaseAttackPower
+:hasBaseAttackPower rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf owl:topDataProperty ;
+                    rdfs:domain :LivingBeing ;
+                    rdfs:range xsd:decimal .
+
+
+###  http://example.com#hasBaseDefensePower
+:hasBaseDefensePower rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf owl:topDataProperty ;
+                     rdfs:domain :LivingBeing ;
+                     rdfs:range xsd:decimal .
+
+
+###  http://example.com#hasBaseHealthPoints
+:hasBaseHealthPoints rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf owl:topDataProperty ;
+                     rdfs:domain :LivingBeing ;
+                     rdfs:range xsd:decimal .
+
+
+###  http://example.com#hasBaseManaPoints
+:hasBaseManaPoints rdf:type owl:DatatypeProperty ;
+                   rdfs:subPropertyOf owl:topDataProperty ;
+                   rdfs:domain :LivingBeing ;
+                   rdfs:range xsd:decimal .
+
+
+###  http://example.com#hasDefensePower
+:hasDefensePower rdf:type owl:DatatypeProperty ;
+                 rdfs:subPropertyOf owl:topDataProperty ;
+                 rdfs:domain :DefenseWeapon ;
+                 rdfs:range xsd:decimal .
+
+
+###  http://example.com#hasDescription
+:hasDescription rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf owl:topDataProperty ;
+                rdfs:domain :DescribedEntity ;
+                rdfs:range xsd:string .
+
+
+###  http://example.com#hasExpGain
+:hasExpGain rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf owl:topDataProperty ;
+            rdfs:domain :ExpGiver ;
+            rdfs:range xsd:decimal .
+
+
+###  http://example.com#hasGoldGain
+:hasGoldGain rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf owl:topDataProperty ;
+             rdfs:domain :GoldGiver ;
+             rdfs:range xsd:decimal .
+
+
+###  http://example.com#hasName
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:subPropertyOf owl:topDataProperty ;
+         rdfs:domain :NamedEntity ;
+         rdfs:range xsd:string .
+
+
+###  http://example.com#hasRequiredManaPoints
+:hasRequiredManaPoints rdf:type owl:DatatypeProperty ;
+                       rdfs:subPropertyOf owl:topDataProperty ;
+                       rdfs:domain :Skill ;
+                       rdfs:range xsd:decimal .
+
+
+###  http://example.com#hasSkillPower
+:hasSkillPower rdf:type owl:DatatypeProperty ;
+               rdfs:subPropertyOf owl:topDataProperty ;
+               rdfs:domain :Skill ;
+               rdfs:range xsd:decimal .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.com#AgressiveCommonEnemy
+:AgressiveCommonEnemy rdf:type owl:Class ;
+                      owl:equivalentClass [ owl:intersectionOf ( :CommonEnemy
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty :hasBehavior ;
+                                                                   owl:hasValue :Agressive
+                                                                 ]
+                                                               ) ;
+                                            rdf:type owl:Class
+                                          ] ;
+                      owl:disjointWith :PassiveCommonEnemy .
+
+
+###  http://example.com#AttackWeapon
+:AttackWeapon rdf:type owl:Class ;
+              rdfs:subClassOf :Weapon ;
+              owl:disjointWith :DefenseWeapon ;
+              rdfs:comment "Weapon that is used to inflict damage on enemies." .
+
+
+###  http://example.com#Behavior
+:Behavior rdf:type owl:Class ;
+          rdfs:comment "Describes common's enemy behavior." .
+
+
+###  http://example.com#Boss
+:Boss rdf:type owl:Class ;
+      rdfs:subClassOf :Enemy ;
+      owl:disjointWith :CommonEnemy ;
+      rdfs:comment "Bosses are enemies that are stronger than the common ones. They usually appears at the end of a Main Quest." .
+
+
+###  http://example.com#Character
+:Character rdf:type owl:Class ;
+           rdfs:subClassOf :LivingBeing ;
+           owl:disjointWith :Enemy ;
+           rdfs:comment "A character is a living being that has the purpose of defeating enemies and explore the world." .
+
+
+###  http://example.com#Chimera
+:Chimera rdf:type owl:Class ;
+         owl:equivalentClass [ owl:intersectionOf ( :LivingBeing
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :hasRace ;
+                                                      owl:someValuesFrom :MixedRace
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] ;
+         rdfs:comment "Chimeras are living beings that have mixed races." .
+
+
+###  http://example.com#Class
+:Class rdf:type owl:Class ;
+       rdfs:subClassOf :DescribedEntity ,
+                       :NamedEntity ;
+       rdfs:comment "Class of a human. Example of classes: Mage, Warrior, Archer." .
+
+
+###  http://example.com#CommonEnemy
+:CommonEnemy rdf:type owl:Class ;
+             rdfs:subClassOf :Enemy ;
+             rdfs:comment "Common enemies can be appear at multiples locations of the world." .
+
+
+###  http://example.com#CommonWeapon
+:CommonWeapon rdf:type owl:Class ;
+              owl:equivalentClass [ owl:intersectionOf ( :Weapon
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty :hasRarity ;
+                                                           owl:hasValue :Common
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
+              rdfs:comment "Weapons that drops frequently." .
+
+
+###  http://example.com#DefenseWeapon
+:DefenseWeapon rdf:type owl:Class ;
+               rdfs:subClassOf :Weapon ;
+               rdfs:comment "Weapons that are used to defend from enemies attacks." .
+
+
+###  http://example.com#DescribedEntity
+:DescribedEntity rdf:type owl:Class ;
+                 rdfs:comment "Some entity that has description." .
+
+
+###  http://example.com#Enemy
+:Enemy rdf:type owl:Class ;
+       rdfs:subClassOf :ExpGiver ,
+                       :GoldGiver ,
+                       :LivingBeing ,
+                       :LocatedEntity ;
+       rdfs:comment "Enemies are living beings that tries to stop character's progress." .
+
+
+###  http://example.com#ExpGiver
+:ExpGiver rdf:type owl:Class ;
+          rdfs:comment "Some entity that gives experience. For example, when a character slays an enemy, experience points are given to him." .
+
+
+###  http://example.com#GoldGiver
+:GoldGiver rdf:type owl:Class ;
+           rdfs:comment "Some entity that gives experience. For example, when a character slays an enemy, gold is given to him." .
+
+
+###  http://example.com#LivingBeing
+:LivingBeing rdf:type owl:Class ;
+             rdfs:subClassOf :DescribedEntity ,
+                             :NamedEntity ;
+             rdfs:comment "All things that lives." .
+
+
+###  http://example.com#LocatedEntity
+:LocatedEntity rdf:type owl:Class ;
+               rdfs:comment "Some entity that has a location somewhere." .
+
+
+###  http://example.com#MainQuest
+:MainQuest rdf:type owl:Class ;
+           rdfs:subClassOf :Quest ;
+           owl:disjointWith :SideQuest ;
+           rdfs:comment "A main quest is a mission that has to be accomplished for the story to progress. That said, only the first main quest is not dependent of others." .
+
+
+###  http://example.com#MixedRace
+:MixedRace rdf:type owl:Class ;
+           owl:equivalentClass [ owl:intersectionOf ( :Race
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty :combinesWith ;
+                                                        owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                                        owl:onClass :Race
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+           rdfs:comment "Races that are mix from two or more races." .
+
+
+###  http://example.com#NamedEntity
+:NamedEntity rdf:type owl:Class ;
+             rdfs:comment "Entity that has a name." .
+
+
+###  http://example.com#PassiveCommonEnemy
+:PassiveCommonEnemy rdf:type owl:Class ;
+                    owl:equivalentClass [ owl:intersectionOf ( :CommonEnemy
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty :hasBehavior ;
+                                                                 owl:hasValue :Passive
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] .
+
+
+###  http://example.com#Place
+:Place rdf:type owl:Class ;
+       rdfs:subClassOf :DescribedEntity ,
+                       :NamedEntity ;
+       rdfs:comment "A location in the world." .
+
+
+###  http://example.com#Quest
+:Quest rdf:type owl:Class ;
+       rdfs:subClassOf :DescribedEntity ,
+                       :ExpGiver ,
+                       :GoldGiver ,
+                       :LocatedEntity ,
+                       :NamedEntity ;
+       rdfs:comment "A mission that a character has to accomplish." .
+
+
+###  http://example.com#Race
+:Race rdf:type owl:Class ;
+      rdfs:subClassOf :DescribedEntity ,
+                      :NamedEntity ;
+      rdfs:comment "Defines an living being. Examples of races: Human, Elf, Dwarf." .
+
+
+###  http://example.com#RareWeapon
+:RareWeapon rdf:type owl:Class ;
+            owl:equivalentClass [ owl:intersectionOf ( :Weapon
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :hasRarity ;
+                                                         owl:hasValue :Rare
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+            rdfs:comment "Weapons that drops rarely." .
+
+
+###  http://example.com#Rarity
+:Rarity rdf:type owl:Class ;
+        rdfs:comment "Enumeration that describes the rarity of an weapon." .
+
+
+###  http://example.com#SideQuest
+:SideQuest rdf:type owl:Class ;
+           rdfs:subClassOf :Quest ;
+           rdfs:comment "Side quests are missions that can be accomplished anytime and doesn't necessarily have a direct impact on the story." .
+
+
+###  http://example.com#Skill
+:Skill rdf:type owl:Class ;
+       rdfs:subClassOf :DescribedEntity ,
+                       :NamedEntity ;
+       rdfs:comment "Skills are different movesets from a class. For example, a mage can have the Fireball Skill. A warrior can have a Bleed Skill. In the end, is something that is not an normal attack." .
+
+
+###  http://example.com#SuperRareWeapon
+:SuperRareWeapon rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( :Weapon
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :hasRarity ;
+                                                              owl:hasValue :SuperRare
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:comment "Weapons that drops super rarely." .
+
+
+###  http://example.com#Weapon
+:Weapon rdf:type owl:Class ;
+        rdfs:subClassOf :DescribedEntity ,
+                        :NamedEntity ;
+        rdfs:comment "Weapons are used by characters to inflict or defend damage." .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://example.com#Agressive
+:Agressive rdf:type owl:NamedIndividual ,
+                    :Behavior .
+
+
+###  http://example.com#Ana
+:Ana rdf:type owl:NamedIndividual ,
+              :Character ;
+     :hasClass :Warrior ;
+     :hasRace :Elf ;
+     :hasBaseAttackPower 22 ;
+     :hasBaseDefensePower 44 ;
+     :hasBaseHealthPoints 32 ;
+     :hasBaseManaPoints 12 ;
+     :hasDescription "Ana is an elf that don't like humans." ;
+     :hasName "Ana" .
+
+
+###  http://example.com#Animal
+:Animal rdf:type owl:NamedIndividual ,
+                 :Race .
+
+
+###  http://example.com#Archer
+:Archer rdf:type owl:NamedIndividual ,
+                 :Class .
+
+
+###  http://example.com#ArrowRain
+:ArrowRain rdf:type owl:NamedIndividual ,
+                    :Skill ;
+           :isSkillOf :Archer .
+
+
+###  http://example.com#Barbara
+:Barbara rdf:type owl:NamedIndividual ,
+                  :Character ;
+         :hasClass :Archer ;
+         :hasRace :Human ;
+         :hasBaseAttackPower 223 ;
+         :hasBaseDefensePower 44 ;
+         :hasBaseHealthPoints 55 ;
+         :hasBaseManaPoints 33 ;
+         :hasDescription "Cool." ;
+         :hasName "Barbara" .
+
+
+###  http://example.com#Bleed
+:Bleed rdf:type owl:NamedIndividual ,
+                :Skill ;
+       :isSkillOf :Warrior .
+
+
+###  http://example.com#Brook
+:Brook rdf:type owl:NamedIndividual ,
+                :Character ;
+       :hasClass :Archer ;
+       :hasRace :Undead ;
+       :hasBaseAttackPower 50 ;
+       :hasBaseDefensePower 20 ;
+       :hasBaseHealthPoints 100 ;
+       :hasBaseManaPoints 200 ;
+       :hasDescription "Brook is a undead that leaves in a abandoned ship." ;
+       :hasName "Brook" .
+
+
+###  http://example.com#Centaur
+:Centaur rdf:type owl:NamedIndividual ,
+                  :Race ;
+         :combinesWith :Animal ,
+                       :Human .
+
+
+###  http://example.com#CentaurLord
+:CentaurLord rdf:type owl:NamedIndividual ,
+                      :Boss ;
+             :hasRace :Centaur .
+
+
+###  http://example.com#Common
+:Common rdf:type owl:NamedIndividual ,
+                 :Rarity .
+
+
+###  http://example.com#CryingForest
+:CryingForest rdf:type owl:NamedIndividual ,
+                       :Place ;
+              :hasDescription "A forest that lives in despair." ;
+              :hasName "Crying Forest" .
+
+
+###  http://example.com#Dash
+:Dash rdf:type owl:NamedIndividual ,
+               :Skill ;
+      :isSkillOf :Archer .
+
+
+###  http://example.com#Demon
+:Demon rdf:type owl:NamedIndividual ,
+                :Race ;
+       :hasDescription "Demon spawn class." ;
+       :hasName "Demon" .
+
+
+###  http://example.com#DespairInducingMace
+:DespairInducingMace rdf:type owl:NamedIndividual ,
+                              :Weapon ;
+                     :hasRarity :SuperRare ;
+                     :isWeaponOf :Warrior ;
+                     :hasAttackPower 22 ;
+                     :hasDescription "It's a mace that causes despair on its victims." ;
+                     :hasName "Despair Inducing Mace" .
+
+
+###  http://example.com#Dwarf
+:Dwarf rdf:type owl:NamedIndividual ,
+                :Race ;
+       :hasDescription "Dwarves are living beings that has high intelligence for mechanical things." ;
+       :hasName "Dwarf" .
+
+
+###  http://example.com#Elf
+:Elf rdf:type owl:NamedIndividual ,
+              :Race ;
+     :hasDescription "Has pointy ears." ;
+     :hasName "Elf" .
+
+
+###  http://example.com#FindTheHiddenBook
+:FindTheHiddenBook rdf:type owl:NamedIndividual ,
+                            :MainQuest ;
+                   :hasLocation :MovingCastle .
+
+
+###  http://example.com#FireStaff
+:FireStaff rdf:type owl:NamedIndividual ,
+                    :Weapon ;
+           :hasRarity :Common ;
+           :isWeaponOf :Mage ;
+           :hasAttackPower 100 ;
+           :hasDescription "Staff that was imbued with fire." ;
+           :hasName "Fire Staff" .
+
+
+###  http://example.com#Fireball
+:Fireball rdf:type owl:NamedIndividual ,
+                   :Skill ;
+          :hasNextSkill :Volcano ;
+          :isSkillOf :Mage ;
+          :hasDescription "Throws a straight fireball that can be evaded." ;
+          :hasName "Fireball" ;
+          :hasSkillPower 10 .
+
+
+###  http://example.com#GiantImp
+:GiantImp rdf:type owl:NamedIndividual ,
+                   :Boss ;
+          :hasRace :Demon ;
+          :hasBaseAttackPower 333 ;
+          :hasBaseDefensePower 100 ,
+                               222 ;
+          :hasBaseHealthPoints 444 ;
+          :hasBaseManaPoints 123 ;
+          :hasDescription "An imp that has grown too much." ;
+          :hasExpGain 200 ;
+          :hasGoldGain 100 ;
+          :hasName "Giant Imp" .
+
+
+###  http://example.com#HalfElf
+:HalfElf rdf:type owl:NamedIndividual ,
+                  :Race ;
+         :combinesWith :Elf ,
+                       :Human .
+
+
+###  http://example.com#HighBow
+:HighBow rdf:type owl:NamedIndividual ,
+                  :Weapon ;
+         :hasRarity :Common ;
+         :isWeaponOf :Archer ;
+         :hasAttackPower 20 ;
+         :hasDescription "Cool bow." ;
+         :hasName "High Bow" .
+
+
+###  http://example.com#HighTower
+:HighTower rdf:type owl:NamedIndividual ,
+                    :Place ;
+           :hasDescription "A tower that soars the sky." ;
+           :hasName "High Tower" .
+
+
+###  http://example.com#HorrorStreet
+:HorrorStreet rdf:type owl:NamedIndividual ,
+                       :Place ;
+              :hasDescription "A street full of inimaginable horrors." ;
+              :hasName "Horror Street" .
+
+
+###  http://example.com#Human
+:Human rdf:type owl:NamedIndividual ,
+                :Race ;
+       :hasDescription "Normal human." ;
+       :hasName "Human" .
+
+
+###  http://example.com#IceArmor
+:IceArmor rdf:type owl:NamedIndividual ,
+                   :Skill ;
+          :isSkillOf :Mage .
+
+
+###  http://example.com#IceSpear
+:IceSpear rdf:type owl:NamedIndividual ,
+                   :Skill ;
+          :isSkillOf :Mage .
+
+
+###  http://example.com#Imp
+:Imp rdf:type owl:NamedIndividual ,
+              :CommonEnemy .
+
+
+###  http://example.com#John
+:John rdf:type owl:NamedIndividual ,
+               :Character ;
+      :hasClass :Warrior ;
+      :hasRace :Dwarf ;
+      :hasBaseAttackPower 56 ;
+      :hasBaseDefensePower 12 ;
+      :hasBaseHealthPoints 23 ;
+      :hasBaseManaPoints 34 ;
+      :hasDescription "John is a grumpy dwarf." ;
+      :hasName "John" .
+
+
+###  http://example.com#Joseph
+:Joseph rdf:type owl:NamedIndividual ,
+                 :Character ;
+        :hasRace :HalfElf .
+
+
+###  http://example.com#Kick
+:Kick rdf:type owl:NamedIndividual ,
+               :Skill ;
+      :isSkillOf :Warrior .
+
+
+###  http://example.com#KillGiantImp
+:KillGiantImp rdf:type owl:NamedIndividual ,
+                       :MainQuest ;
+              :hasLocation :CryingForest ;
+              :hasParticipationOf :GiantImp ;
+              :hasDescription "Kill the giant imp to save the village." ;
+              :hasExpGain 1000 ;
+              :hasGoldGain 5000 ;
+              :hasName "Kill Giant Imp" .
+
+
+###  http://example.com#Mage
+:Mage rdf:type owl:NamedIndividual ,
+               :Class .
+
+
+###  http://example.com#MetorShower
+:MetorShower rdf:type owl:NamedIndividual ,
+                      :Skill ;
+             :isSkillOf :Mage .
+
+
+###  http://example.com#MiniDragon
+:MiniDragon rdf:type owl:NamedIndividual ,
+                     :CommonEnemy .
+
+
+###  http://example.com#MovingCastle
+:MovingCastle rdf:type owl:NamedIndividual ,
+                       :Place ;
+              :hasDescription "A castle that moves." ;
+              :hasName "Moving Castle" .
+
+
+###  http://example.com#Necronomicon
+:Necronomicon rdf:type owl:NamedIndividual ,
+                       :Weapon ;
+              :hasRarity :SuperRare ;
+              :isWeaponOf :Mage ;
+              :hasAttackPower 100 ;
+              :hasDescription "Book of the dead." ;
+              :hasName "Necronomicon" .
+
+
+###  http://example.com#Passive
+:Passive rdf:type owl:NamedIndividual ,
+                  :Behavior .
+
+
+###  http://example.com#PierceShot
+:PierceShot rdf:type owl:NamedIndividual ,
+                     :Skill ;
+            :isSkillOf :Archer .
+
+
+###  http://example.com#Rare
+:Rare rdf:type owl:NamedIndividual ,
+               :Rarity .
+
+
+###  http://example.com#Slash
+:Slash rdf:type owl:NamedIndividual ,
+                :Skill ;
+       :isSkillOf :Warrior .
+
+
+###  http://example.com#SuperRare
+:SuperRare rdf:type owl:NamedIndividual ,
+                    :Rarity .
+
+
+###  http://example.com#SwordOfSorrow
+:SwordOfSorrow rdf:type owl:NamedIndividual ,
+                        :Weapon ;
+               :hasRarity :Rare ;
+               :isWeaponOf :Warrior ;
+               :hasAttackPower 11 ;
+               :hasDescription "Sword that causes sorrow on slash." ;
+               :hasName "Sword of Sorrow" .
+
+
+###  http://example.com#Undead
+:Undead rdf:type owl:NamedIndividual ,
+                 :Race ;
+        :hasDescription "Zombie-like humans." ;
+        :hasName "Undead" .
+
+
+###  http://example.com#Volcano
+:Volcano rdf:type owl:NamedIndividual ,
+                  :Skill ;
+         :hasNextSkill :MetorShower ;
+         :isSkillOf :Mage .
+
+
+###  http://example.com#Warrior
+:Warrior rdf:type owl:NamedIndividual ,
+                  :Class .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Class
+                :LivingBeing
+                :Place
+                :Quest
+                :Race
+                :Skill
+                :Weapon
+              )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :Animal
+                        :Demon
+                        :Dwarf
+                        :Elf
+                        :Human
+                        :Undead
+                      )
+] .
+
+
+###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
