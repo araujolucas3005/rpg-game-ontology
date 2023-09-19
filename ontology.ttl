@@ -7,7 +7,8 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <http://example.com#> .
 
-<http://example.com> rdf:type owl:Ontology .
+<http://example.com> rdf:type owl:Ontology ;
+                      rdfs:comment "RPG Game Design Pattern Ontology." .
 
 #################################################################
 #    Object Properties
