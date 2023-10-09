@@ -1,0 +1,86 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rpg: <http://rpg.com#>
+
+# 1
+SELECT ?boss
+WHERE {
+  ?boss a rpg:Boss .
+  ?boss a rpg:RareDroppingWeaponEnemy .
+}
+
+# 2
+SELECT ?class(COUNT(?class) AS ?totalCount)
+WHERE {
+  ?class a rpg:Class .
+  ?class rpg:isClassOf ?character .
+}
+GROUP BY ?class
+ORDER BY DESC (?totalCount)
+
+# 3
+SELECT ?race(COUNT(?race) AS ?totalCount)
+WHERE {
+  ?race a rpg:Race .
+  ?race rpg:isRaceOf ?livingBeing .
+}
+GROUP BY ?race
+ORDER BY DESC (?totalCount)
+
+# 4
+SELECT ?enemy ?dropRate ?weapon
+WHERE {
+  ?enemy a rpg:RareDroppingWeaponEnemy .
+  ?enemy rpg:hasDrop ?drop .
+  ?drop rpg:hasDropRate ?dropRate .
+  ?drop rpg:drops ?weapon .
+}
+
+# 5
+SELECT ?place (SUM(?expGain) as ?totalExp)
+WHERE {
+  ?place a rpg:Place .
+  ?place rpg:isLocationOf ?expGiver .
+  ?expGiver rpg:hasExpGain ?expGain .
+}
+GROUP BY ?place
+ORDER BY DESC(?totalExp)
+
+# 6 
+SELECT ?place (SUM(?goldGain) as ?totalGold)
+WHERE {
+  ?place a rpg:Place .
+  ?place rpg:isLocationOf ?goldGiver .
+  ?goldGiver rpg:hasGoldGain ?goldGain .
+}
+GROUP BY ?place
+ORDER BY DESC(?totalGold)
+
+# 7
+SELECT ?place (Count(?enemy) as ?totalEnemies)
+WHERE {
+  ?place a rpg:Place .
+  ?place rpg:isLocationOf ?enemy .
+  ?enemy a rpg:AgressiveCommonEnemy .
+}
+GROUP BY ?place
+ORDER BY DESC(?totalEnemies)
+
+# 7
+SELECT ?place (Count(?enemy) as ?totalEnemies)
+WHERE {
+  ?place a rpg:Place .
+  ?place rpg:isLocationOf ?enemy .
+  ?enemy a rpg:AgressiveCommonEnemy .
+}
+GROUP BY ?place
+ORDER BY DESC(?totalEnemies)
+
+# 8
+SELECT ?livingBeing ?attackPower 
+WHERE {
+  ?livingBeing a rpg:LivingBeing .
+  ?livingBeing rpg:hasBaseAttackPower ?attackPower .
+}
+ORDER BY DESC(?attackPower)
