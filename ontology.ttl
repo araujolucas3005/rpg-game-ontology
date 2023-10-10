@@ -7,8 +7,8 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @base <http://example.com#> .
 
-<http://rpg.com> rdf:type owl:Ontology ;
-                  rdfs:comment "RPG Game Design Pattern Ontology." .
+<http://example.com> rdf:type owl:Ontology ;
+                      rdfs:comment "RPG Game Design Pattern Ontology." .
 
 #################################################################
 #    Object Properties
@@ -288,7 +288,12 @@
 
 ###  http://example.com#AttackWeapon
 :AttackWeapon rdf:type owl:Class ;
-              rdfs:subClassOf :Weapon ;
+              rdfs:subClassOf :Weapon ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasAttackPower ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onDataRange xsd:decimal
+                              ] ;
               owl:disjointWith :DefenseWeapon ;
               rdfs:comment "Weapon that is used to inflict damage on enemies." .
 
@@ -299,6 +304,12 @@
                             owl:onProperty :isBehaviorOf ;
                             owl:someValuesFrom :Enemy
                           ] ;
+          owl:disjointWith :DescribedEntity ,
+                           :Drop ,
+                           :ExpGiver ,
+                           :GoldGiver ,
+                           :LocatedEntity ,
+                           :Rarity ;
           rdfs:comment "Describes common's enemy behavior." .
 
 
@@ -311,7 +322,12 @@
 
 ###  http://example.com#Character
 :Character rdf:type owl:Class ;
-           rdfs:subClassOf :LivingBeing ;
+           rdfs:subClassOf :LivingBeing ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasClass ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onClass :Class
+                           ] ;
            owl:disjointWith :Enemy ;
            rdfs:comment "A character is a living being that has the purpose of defeating enemies and explore the world." .
 
@@ -331,13 +347,26 @@
 
 ###  http://example.com#Class
 :Class rdf:type owl:Class ;
-       rdfs:subClassOf :DescribedEntity ;
+       rdfs:subClassOf :DescribedEntity ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasSkill ;
+                         owl:someValuesFrom :Skill
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :isClassOf ;
+                         owl:someValuesFrom :Character
+                       ] ;
        rdfs:comment "Class of a human. Example of classes: Mage, Warrior, Archer." .
 
 
 ###  http://example.com#CommonEnemy
 :CommonEnemy rdf:type owl:Class ;
-             rdfs:subClassOf :Enemy ;
+             rdfs:subClassOf :Enemy ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasBehavior ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :Behavior
+                             ] ;
              rdfs:comment "Common enemies can be appear at multiples locations of the world." .
 
 
@@ -356,21 +385,53 @@
 
 ###  http://example.com#DefenseWeapon
 :DefenseWeapon rdf:type owl:Class ;
-               rdfs:subClassOf :Weapon ;
+               rdfs:subClassOf :Weapon ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasDefensePower ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onDataRange xsd:decimal
+                               ] ;
                rdfs:comment "Weapons that are used to defend from enemies attacks." .
 
 
 ###  http://example.com#DescribedEntity
 :DescribedEntity rdf:type owl:Class ;
+                 rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasDescription ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onDataRange xsd:string
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasName ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onDataRange xsd:string
+                                 ] ;
+                 owl:disjointWith :Drop ,
+                                  :Rarity ;
                  rdfs:comment "Some entity that has description." .
 
 
 ###  http://example.com#Drop
 :Drop rdf:type owl:Class ;
       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                        owl:onProperty :drops ;
+                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onClass :Weapon
+                      ] ,
+                      [ rdf:type owl:Restriction ;
                         owl:onProperty :isDropOf ;
-                        owl:someValuesFrom :Enemy
-                      ] .
+                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onClass :Enemy
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :hasDropRate ;
+                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:decimal
+                      ] ;
+      owl:disjointWith :ExpGiver ,
+                       :GoldGiver ,
+                       :LocatedEntity ,
+                       :Rarity .
 
 
 ###  http://example.com#Enemy
@@ -384,22 +445,65 @@
 
 ###  http://example.com#ExpGiver
 :ExpGiver rdf:type owl:Class ;
+          rdfs:subClassOf [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasExpGain ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onDataRange xsd:decimal
+                          ] ;
+          owl:disjointWith :Rarity ;
           rdfs:comment "Some entity that gives experience. For example, when a character slays an enemy, experience points are given to him." .
 
 
 ###  http://example.com#GoldGiver
 :GoldGiver rdf:type owl:Class ;
+           rdfs:subClassOf [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasGoldGain ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onDataRange xsd:decimal
+                           ] ;
+           owl:disjointWith :Rarity ;
            rdfs:comment "Some entity that gives experience. For example, when a character slays an enemy, gold is given to him." .
 
 
 ###  http://example.com#LivingBeing
 :LivingBeing rdf:type owl:Class ;
-             rdfs:subClassOf :DescribedEntity ;
+             rdfs:subClassOf :DescribedEntity ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasRace ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :Race
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasBaseAttackPower ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onDataRange xsd:decimal
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasBaseDefensePower ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onDataRange xsd:decimal
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasBaseHealthPoints ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onDataRange xsd:decimal
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasBaseManaPoints ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onDataRange xsd:decimal
+                             ] ;
              rdfs:comment "All things that lives." .
 
 
 ###  http://example.com#LocatedEntity
 :LocatedEntity rdf:type owl:Class ;
+               rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasLocation ;
+                                 owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :Place
+                               ] ;
+               owl:disjointWith :Rarity ;
                rdfs:comment "Some entity that has a location somewhere." .
 
 
@@ -467,35 +571,39 @@
 
 ###  http://example.com#Race
 :Race rdf:type owl:Class ;
-      rdfs:subClassOf :DescribedEntity ;
+      rdfs:subClassOf :DescribedEntity ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :isRaceOf ;
+                        owl:someValuesFrom :LivingBeing
+                      ] ;
       rdfs:comment "Defines an living being. Examples of races: Human, Elf, Dwarf." .
 
 
-###  http://example.com#RareDroppingWeaponEnemies
-:RareDroppingWeaponEnemies rdf:type owl:Class ;
-                           owl:equivalentClass [ owl:intersectionOf ( :Enemy
-                                                                      [ rdf:type owl:Restriction ;
-                                                                        owl:onProperty :hasDrop ;
-                                                                        owl:someValuesFrom [ owl:intersectionOf ( :Drop
-                                                                                                                  [ rdf:type owl:Restriction ;
-                                                                                                                    owl:onProperty :drops ;
-                                                                                                                    owl:someValuesFrom [ owl:intersectionOf ( :Weapon
-                                                                                                                                                              [ rdf:type owl:Restriction ;
-                                                                                                                                                                owl:onProperty :hasRarity ;
-                                                                                                                                                                owl:hasValue :Rare
-                                                                                                                                                              ]
-                                                                                                                                                            ) ;
-                                                                                                                                         rdf:type owl:Class
-                                                                                                                                       ]
-                                                                                                                  ]
-                                                                                                                ) ;
-                                                                                             rdf:type owl:Class
-                                                                                           ]
-                                                                      ]
-                                                                    ) ;
-                                                 rdf:type owl:Class
-                                               ] ;
-                           rdfs:comment "Enemies that can drop rare weapons when killed." .
+###  http://example.com#RareDroppingWeaponEnemy
+:RareDroppingWeaponEnemy rdf:type owl:Class ;
+                         owl:equivalentClass [ owl:intersectionOf ( :Enemy
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty :hasDrop ;
+                                                                      owl:someValuesFrom [ owl:intersectionOf ( :Drop
+                                                                                                                [ rdf:type owl:Restriction ;
+                                                                                                                  owl:onProperty :drops ;
+                                                                                                                  owl:someValuesFrom [ owl:intersectionOf ( :Weapon
+                                                                                                                                                            [ rdf:type owl:Restriction ;
+                                                                                                                                                              owl:onProperty :hasRarity ;
+                                                                                                                                                              owl:hasValue :Rare
+                                                                                                                                                            ]
+                                                                                                                                                          ) ;
+                                                                                                                                       rdf:type owl:Class
+                                                                                                                                     ]
+                                                                                                                ]
+                                                                                                              ) ;
+                                                                                           rdf:type owl:Class
+                                                                                         ]
+                                                                    ]
+                                                                  ) ;
+                                               rdf:type owl:Class
+                                             ] ;
+                         rdfs:comment "Enemies that can drop rare weapons when killed." .
 
 
 ###  http://example.com#RareWeapon
@@ -528,35 +636,48 @@
 
 ###  http://example.com#Skill
 :Skill rdf:type owl:Class ;
-       rdfs:subClassOf :DescribedEntity ;
+       rdfs:subClassOf :DescribedEntity ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :isSkillOf ;
+                         owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :Class
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasRequiredManaPoints ;
+                         owl:someValuesFrom xsd:decimal
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasSkillPower ;
+                         owl:someValuesFrom xsd:decimal
+                       ] ;
        rdfs:comment "Skills are different movesets from a class. For example, a mage can have the Fireball Skill. A warrior can have a Bleed Skill. In the end, is something that is not an normal attack." .
 
 
-###  http://example.com#SuperRareDroppingWeaponEnemies
-:SuperRareDroppingWeaponEnemies rdf:type owl:Class ;
-                                owl:equivalentClass [ owl:intersectionOf ( :Enemy
-                                                                           [ rdf:type owl:Restriction ;
-                                                                             owl:onProperty :hasDrop ;
-                                                                             owl:someValuesFrom [ owl:intersectionOf ( :Drop
-                                                                                                                       [ rdf:type owl:Restriction ;
-                                                                                                                         owl:onProperty :drops ;
-                                                                                                                         owl:someValuesFrom [ owl:intersectionOf ( :Weapon
-                                                                                                                                                                   [ rdf:type owl:Restriction ;
-                                                                                                                                                                     owl:onProperty :hasRarity ;
-                                                                                                                                                                     owl:hasValue :SuperRare
-                                                                                                                                                                   ]
-                                                                                                                                                                 ) ;
-                                                                                                                                              rdf:type owl:Class
-                                                                                                                                            ]
-                                                                                                                       ]
-                                                                                                                     ) ;
-                                                                                                  rdf:type owl:Class
-                                                                                                ]
-                                                                           ]
-                                                                         ) ;
-                                                      rdf:type owl:Class
-                                                    ] ;
-                                rdfs:comment "Enemies that can drop super rare weapons when killed." .
+###  http://example.com#SuperRareDroppingWeaponEnemy
+:SuperRareDroppingWeaponEnemy rdf:type owl:Class ;
+                              owl:equivalentClass [ owl:intersectionOf ( :Enemy
+                                                                         [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty :hasDrop ;
+                                                                           owl:someValuesFrom [ owl:intersectionOf ( :Drop
+                                                                                                                     [ rdf:type owl:Restriction ;
+                                                                                                                       owl:onProperty :drops ;
+                                                                                                                       owl:someValuesFrom [ owl:intersectionOf ( :Weapon
+                                                                                                                                                                 [ rdf:type owl:Restriction ;
+                                                                                                                                                                   owl:onProperty :hasRarity ;
+                                                                                                                                                                   owl:hasValue :SuperRare
+                                                                                                                                                                 ]
+                                                                                                                                                               ) ;
+                                                                                                                                            rdf:type owl:Class
+                                                                                                                                          ]
+                                                                                                                     ]
+                                                                                                                   ) ;
+                                                                                                rdf:type owl:Class
+                                                                                              ]
+                                                                         ]
+                                                                       ) ;
+                                                    rdf:type owl:Class
+                                                  ] ;
+                              rdfs:comment "Enemies that can drop super rare weapons when killed." .
 
 
 ###  http://example.com#SuperRareWeapon
@@ -574,7 +695,12 @@
 
 ###  http://example.com#Weapon
 :Weapon rdf:type owl:Class ;
-        rdfs:subClassOf :DescribedEntity ;
+        rdfs:subClassOf :DescribedEntity ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :hasRarity ;
+                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                          owl:onClass :Rarity
+                        ] ;
         rdfs:comment "Weapons are used by characters to inflict or defend damage." .
 
 
@@ -582,10 +708,20 @@
 #    Individuals
 #################################################################
 
+###  http://example.com#ANightOfShadows
+:ANightOfShadows rdf:type owl:NamedIndividual ,
+                          :MainQuest .
+
+
 ###  http://example.com#Agressive
 :Agressive rdf:type owl:NamedIndividual ,
                     :Behavior ;
            rdfs:comment "Agressive enemies tend to attack players on sight." .
+
+
+###  http://example.com#Alaric
+:Alaric rdf:type owl:NamedIndividual ,
+                 :Character .
 
 
 ###  http://example.com#Ana
@@ -617,6 +753,11 @@
            :isSkillOf :Archer .
 
 
+###  http://example.com#Balrog
+:Balrog rdf:type owl:NamedIndividual ,
+                 :CommonEnemy .
+
+
 ###  http://example.com#Barbara
 :Barbara rdf:type owl:NamedIndividual ,
                   :Character ;
@@ -630,10 +771,35 @@
          :hasName "Barbara" .
 
 
+###  http://example.com#Berseker
+:Berseker rdf:type owl:NamedIndividual ,
+                   :CommonEnemy .
+
+
 ###  http://example.com#Bleed
 :Bleed rdf:type owl:NamedIndividual ,
                 :Skill ;
        :isSkillOf :Warrior .
+
+
+###  http://example.com#BloodyDragon
+:BloodyDragon rdf:type owl:NamedIndividual ,
+                       :Boss .
+
+
+###  http://example.com#BloodyDrink
+:BloodyDrink rdf:type owl:NamedIndividual ,
+                      :MainQuest .
+
+
+###  http://example.com#BloodyOrc
+:BloodyOrc rdf:type owl:NamedIndividual ,
+                    :CommonEnemy .
+
+
+###  http://example.com#BloodySpear
+:BloodySpear rdf:type owl:NamedIndividual ,
+                      :Weapon .
 
 
 ###  http://example.com#Brook
@@ -663,9 +829,29 @@
              :hasRace :Centaur .
 
 
+###  http://example.com#ChiefOrc
+:ChiefOrc rdf:type owl:NamedIndividual ,
+                   :Boss .
+
+
 ###  http://example.com#Common
 :Common rdf:type owl:NamedIndividual ,
                  :Rarity .
+
+
+###  http://example.com#CommonSpear
+:CommonSpear rdf:type owl:NamedIndividual ,
+                      :Weapon .
+
+
+###  http://example.com#CommonStaff
+:CommonStaff rdf:type owl:NamedIndividual ,
+                      :Weapon .
+
+
+###  http://example.com#CommonSword
+:CommonSword rdf:type owl:NamedIndividual ,
+                      :Weapon .
 
 
 ###  http://example.com#CryingForest
@@ -673,6 +859,11 @@
                        :Place ;
               :hasDescription "A forest that lives in despair." ;
               :hasName "Crying Forest" .
+
+
+###  http://example.com#CrystalBall
+:CrystalBall rdf:type owl:NamedIndividual ,
+                      :Weapon .
 
 
 ###  http://example.com#Dash
@@ -698,6 +889,16 @@
                      :hasName "Despair Inducing Mace" .
 
 
+###  http://example.com#Dragon
+:Dragon rdf:type owl:NamedIndividual ,
+                 :Race .
+
+
+###  http://example.com#DragonsScaleCollectionner
+:DragonsScaleCollectionner rdf:type owl:NamedIndividual ,
+                                    :SideQuest .
+
+
 ###  http://example.com#Drop1
 :Drop1 rdf:type owl:NamedIndividual ,
                 :Drop ;
@@ -712,11 +913,21 @@
        :hasName "Dwarf" .
 
 
+###  http://example.com#DwarfElf
+:DwarfElf rdf:type owl:NamedIndividual ,
+                   :Race .
+
+
 ###  http://example.com#Elf
 :Elf rdf:type owl:NamedIndividual ,
               :Race ;
      :hasDescription "Has pointy ears." ;
      :hasName "Elf" .
+
+
+###  http://example.com#EmbraceTheDarkness
+:EmbraceTheDarkness rdf:type owl:NamedIndividual ,
+                             :MainQuest .
 
 
 ###  http://example.com#FindTheHiddenBook
@@ -758,6 +969,11 @@
           :hasExpGain 200 ;
           :hasGoldGain 100 ;
           :hasName "Giant Imp" .
+
+
+###  http://example.com#Goblin
+:Goblin rdf:type owl:NamedIndividual ,
+                 :CommonEnemy .
 
 
 ###  http://example.com#HalfElf
@@ -804,6 +1020,12 @@
           :isSkillOf :Mage .
 
 
+###  http://example.com#IceShield
+:IceShield rdf:type owl:NamedIndividual ,
+                    :Weapon ;
+           :hasDefensePower 50 .
+
+
 ###  http://example.com#IceSpear
 :IceSpear rdf:type owl:NamedIndividual ,
                    :Skill ;
@@ -815,6 +1037,11 @@
               :CommonEnemy ;
      :hasBehavior :Agressive ;
      :hasLocation :CryingForest .
+
+
+###  http://example.com#ImpsShortage
+:ImpsShortage rdf:type owl:NamedIndividual ,
+                       :SideQuest .
 
 
 ###  http://example.com#John
@@ -836,6 +1063,11 @@
         :hasRace :HalfElf .
 
 
+###  http://example.com#Kaelin
+:Kaelin rdf:type owl:NamedIndividual ,
+                 :Character .
+
+
 ###  http://example.com#Kick
 :Kick rdf:type owl:NamedIndividual ,
                :Skill ;
@@ -851,6 +1083,11 @@
               :hasExpGain 1000 ;
               :hasGoldGain 5000 ;
               :hasName "Kill Giant Imp" .
+
+
+###  http://example.com#Maelis
+:Maelis rdf:type owl:NamedIndividual ,
+                 :Character .
 
 
 ###  http://example.com#Mage
@@ -886,6 +1123,16 @@
               :hasName "Necronomicon" .
 
 
+###  http://example.com#OrcsAnnihilation
+:OrcsAnnihilation rdf:type owl:NamedIndividual ,
+                           :SideQuest .
+
+
+###  http://example.com#Oria
+:Oria rdf:type owl:NamedIndividual ,
+               :Character .
+
+
 ###  http://example.com#Passive
 :Passive rdf:type owl:NamedIndividual ,
                   :Behavior ;
@@ -898,6 +1145,11 @@
             :isSkillOf :Archer .
 
 
+###  http://example.com#Rapier
+:Rapier rdf:type owl:NamedIndividual ,
+                 :Weapon .
+
+
 ###  http://example.com#Rare
 :Rare rdf:type owl:NamedIndividual ,
                :Rarity .
@@ -907,6 +1159,16 @@
 :Slash rdf:type owl:NamedIndividual ,
                 :Skill ;
        :isSkillOf :Warrior .
+
+
+###  http://example.com#Snake
+:Snake rdf:type owl:NamedIndividual ,
+                :CommonEnemy .
+
+
+###  http://example.com#Spider
+:Spider rdf:type owl:NamedIndividual ,
+                 :CommonEnemy .
 
 
 ###  http://example.com#SuperRare
@@ -924,11 +1186,26 @@
                :hasName "Sword of Sorrow" .
 
 
+###  http://example.com#TheDragonsBreath
+:TheDragonsBreath rdf:type owl:NamedIndividual ,
+                           :MainQuest .
+
+
+###  http://example.com#TowerShield
+:TowerShield rdf:type owl:NamedIndividual ,
+                      :Weapon .
+
+
 ###  http://example.com#Undead
 :Undead rdf:type owl:NamedIndividual ,
                  :Race ;
         :hasDescription "Zombie-like humans." ;
         :hasName "Undead" .
+
+
+###  http://example.com#UndeadKnight
+:UndeadKnight rdf:type owl:NamedIndividual ,
+                       :CommonEnemy .
 
 
 ###  http://example.com#Volcano
@@ -946,14 +1223,6 @@
 #################################################################
 #    General axioms
 #################################################################
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( :Behavior
-                :Drop
-                :Rarity
-              )
-] .
-
 
 [ rdf:type owl:AllDisjointClasses ;
   owl:members ( :Class
