@@ -1,7 +1,7 @@
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX rpg: <http://rpg.com#>
+PREFIX rpg: <http://example.com#>
 
 # 1
 SELECT ?boss
@@ -36,6 +36,7 @@ WHERE {
   ?drop rpg:hasDropRate ?dropRate .
   ?drop rpg:drops ?weapon .
 }
+ORDER BY DESC(?dropRate)
 
 # 5
 SELECT ?place (SUM(?expGain) as ?totalExp)
