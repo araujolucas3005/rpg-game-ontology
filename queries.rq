@@ -3,14 +3,14 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rpg: <http://example.com#>
 
-# 1
+# 1 Quais são os chefes (bosses) que quando eliminados têm chance de dar armas super raras?
 SELECT ?boss
 WHERE {
   ?boss a rpg:Boss .
   ?boss a rpg:RareDroppingWeaponEnemy .
 }
 
-# 2
+# 2 Quais classes são mais predominantes no jogo?
 SELECT ?class(COUNT(?class) AS ?totalCount)
 WHERE {
   ?class a rpg:Class .
@@ -19,7 +19,7 @@ WHERE {
 GROUP BY ?class
 ORDER BY DESC (?totalCount)
 
-# 3
+# 3 Quais raças são mais predominantes no jogo?
 SELECT ?race(COUNT(?race) AS ?totalCount)
 WHERE {
   ?race a rpg:Race .
@@ -28,7 +28,7 @@ WHERE {
 GROUP BY ?race
 ORDER BY DESC (?totalCount)
 
-# 4
+# 4 Quais inimigos, quando derrotados, têm a melhor chance de dar armas super raras?
 SELECT ?enemy ?dropRate ?weapon
 WHERE {
   ?enemy a rpg:RareDroppingWeaponEnemy .
@@ -38,7 +38,7 @@ WHERE {
 }
 ORDER BY DESC(?dropRate)
 
-# 5
+# 5 Quais locais do jogo têm um maior potencial de ganho de experiência?
 SELECT ?place (SUM(?expGain) as ?totalExp)
 WHERE {
   ?place a rpg:Place .
@@ -48,7 +48,7 @@ WHERE {
 GROUP BY ?place
 ORDER BY DESC(?totalExp)
 
-# 6 
+# 6 Quais locais do jogo têm um maior potencial de ganho de gold (moeda do jogo)?
 SELECT ?place (SUM(?goldGain) as ?totalGold)
 WHERE {
   ?place a rpg:Place .
@@ -58,7 +58,7 @@ WHERE {
 GROUP BY ?place
 ORDER BY DESC(?totalGold)
 
-# 7
+# 7 Quais locais têm a maior quantidade de tipos de inimigos comuns agressivos?
 SELECT ?place (Count(?enemy) as ?totalEnemies)
 WHERE {
   ?place a rpg:Place .
@@ -68,17 +68,7 @@ WHERE {
 GROUP BY ?place
 ORDER BY DESC(?totalEnemies)
 
-# 7
-SELECT ?place (Count(?enemy) as ?totalEnemies)
-WHERE {
-  ?place a rpg:Place .
-  ?place rpg:isLocationOf ?enemy .
-  ?enemy a rpg:AgressiveCommonEnemy .
-}
-GROUP BY ?place
-ORDER BY DESC(?totalEnemies)
-
-# 8
+# 8 Quais são os seres vivos mais fortes, em relação ao poder de ataque?
 SELECT ?livingBeing ?attackPower 
 WHERE {
   ?livingBeing a rpg:LivingBeing .
