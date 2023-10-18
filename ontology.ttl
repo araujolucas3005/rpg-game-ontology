@@ -598,7 +598,11 @@
 
 ###  http://example.com#Race
 :Race rdf:type owl:Class ;
-      rdfs:subClassOf :DescribedEntity ;
+      rdfs:subClassOf :DescribedEntity ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :isRaceOf ;
+                        owl:someValuesFrom :LivingBeing
+                      ] ;
       rdfs:comment "Defines an living being. Examples of races: Human, Elf, Dwarf." .
 
 
