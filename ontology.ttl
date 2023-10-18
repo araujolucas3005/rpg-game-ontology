@@ -492,20 +492,6 @@
            rdfs:comment "Some entity that gives experience. For example, when a character slays an enemy, gold is given to him." .
 
 
-###  http://example.com#HighDensityPlace
-:HighDensityPlace rdf:type owl:Class ;
-                  owl:equivalentClass [ owl:intersectionOf ( :Place
-                                                             [ rdf:type owl:Restriction ;
-                                                               owl:onProperty :isLocationOf ;
-                                                               owl:minQualifiedCardinality "6"^^xsd:nonNegativeInteger ;
-                                                               owl:onClass :Enemy
-                                                             ]
-                                                           ) ;
-                                        rdf:type owl:Class
-                                      ] ;
-                  owl:disjointWith :LowDensityPlace .
-
-
 ###  http://example.com#LivingBeing
 :LivingBeing rdf:type owl:Class ;
              rdfs:subClassOf :DescribedEntity ,
@@ -546,27 +532,6 @@
                                ] ;
                owl:disjointWith :Rarity ;
                rdfs:comment "Some entity that has a location somewhere." .
-
-
-###  http://example.com#LowDensityPlace
-:LowDensityPlace rdf:type owl:Class ;
-                 owl:equivalentClass [ owl:intersectionOf ( :Place
-                                                            [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                                                     owl:onProperty :isLocationOf ;
-                                                                                     owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                                                     owl:onClass :Enemy
-                                                                                   ]
-                                                                                   [ rdf:type owl:Restriction ;
-                                                                                     owl:onProperty :isLocationOf ;
-                                                                                     owl:maxQualifiedCardinality "5"^^xsd:nonNegativeInteger ;
-                                                                                     owl:onClass :Enemy
-                                                                                   ]
-                                                                                 ) ;
-                                                              rdf:type owl:Class
-                                                            ]
-                                                          ) ;
-                                       rdf:type owl:Class
-                                     ] .
 
 
 ###  http://example.com#MainQuest
